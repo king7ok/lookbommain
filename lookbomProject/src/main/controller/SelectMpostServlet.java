@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +34,14 @@ public class SelectMpostServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//메인 포스트 셀렉트
+		
+		response.setContentType("text/html; charset:utf-8");
 		ArrayList<MainPost> list = new MainPostService().selectPost();
 		PrintWriter out =response.getWriter();
+		  
+	    RequestDispatcher view = request.getRequestDispatcher("views/adminMain/mainPostUpdate.jsp");
+	    request.setAttribute("list", list);
+	    view.forward(request, response);
 	   
 		
 	}

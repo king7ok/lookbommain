@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 			
-			response.sendRedirect("/semi/index.jsp");
+			response.sendRedirect("/lb/index.jsp");
 		}else {
 			RequestDispatcher view = request.getRequestDispatcher("views/user/loginError.jsp");
 			request.setAttribute("message", "회원의 아이디가 존재하지 않습니다.");

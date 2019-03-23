@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.model.service.MainPostService;
+import main.model.vo.MainPost;
 
 /**
  * Servlet implementation class InsetPostServlet
@@ -31,12 +32,18 @@ public class InsetPostServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 메인포스트 입력 서블릿
+		request.setCharacterEncoding("utf-8");
 		String url1 = request.getParameter("url1");
 		String img1 = request.getParameter("img1");
-		int result = new MainPostService().insertPost(url1,img1);
+		MainPost mpost = new MainPost();
+		mpost.setUrl(url1);
+		mpost.setImg(img1);
+		int result = new MainPostService().insertPost(mpost);
+		;
+		
 		RequestDispatcher view = null;
 		if(result >0) {
-			response.sendRedirect("/semi/views/adminMain/mainPostUpdate.jsp");
+			response.sendRedirect("/lb/views/adminMain/mainPostUpdate.jsp");
 		}else {
 			view = request.getRequestDispatcher("views/adminMain/mainPostUpdate.jsp");
 			request.setAttribute("message", "등록 실패");

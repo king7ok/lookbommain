@@ -7,6 +7,7 @@ public class MainPost {
 	public int category;
 	public String content;
 	
+	public MainPost() {}
 	public MainPost(int postNo, String url, String img, int category, String content) {
 		super();
 		this.postNo = postNo;

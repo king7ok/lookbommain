@@ -65,7 +65,7 @@ public class UserInsertServlet extends HttpServlet {
 		
 		response.setContentType("text/html; charset=utf-8");
 		if(result > 0) {
-			response.sendRedirect("/semi/views/user/login.jsp");
+			response.sendRedirect("/lb/views/user/login.jsp");
 		}else {
 			RequestDispatcher view = request.getRequestDispatcher("views/user/userError.jsp");
 			request.setAttribute("message", "회원가입 실패!");

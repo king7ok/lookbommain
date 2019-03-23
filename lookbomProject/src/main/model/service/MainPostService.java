@@ -14,24 +14,24 @@ public class MainPostService {
 
 	public MainPostService() {}
 	private MainPostDao mdao = new MainPostDao();
-	public int insertPost(String url,String img) {
+	public int insertPost(MainPost mpost) {
 		
 		Connection conn = getConnection();
-		int result = mdao.insertPost(conn, url, img);
+		int result = mdao.insertPost(conn, mpost);
 		close(conn);
 		return result;
 	}
-	public MainPost deletePost(String url,String img) {
-		Connection conn = getConnection();
-		MainPost mpost = mdao.deletePost(conn, url, img);
-		close(conn);
-		return mpost;
-	}
+
 	public ArrayList<MainPost> selectPost() {
 		Connection conn = getConnection();
 		ArrayList<MainPost> list = mdao.selectPost(conn);
 		close(conn);
 		return list;
+	}
+	public int deletePost(String rnum) {
+		Connection conn = getConnection();
+		int result = mdao.deletePost(conn,rnum);
+		return result;
 	}
 	
 	

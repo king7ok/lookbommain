@@ -58,32 +58,42 @@
 <br><br><br><br><br><br><br><br><br><br>
 
 <!-- <form name="mpselect" id="mpselect" method="post" action="/lb/mpselect" enctype="multipart/form-data"> -->
+<%-- <form action="mpdelete" method="post">
 <table align="center">
-	<% for(MainPost mpost : list){ %>
+<% for(int i = 0;i<list.size();i++){ %>
 <tr>
-<%-- <%for(int i =0;i<list.size();i++){ %>
-		 <td><a id="viewbutton" href="<%= list.get(i).getUrl()%>"><img id="viewmp" src="<%= list.get(i).getImg()%>"></a></td>
-		 <td><button type="checkbox" value="<%=i%>"></button></td>
-		<%if(i == 4 ){ %>
-		</tr><td><a id="viewbutton" href="<%= list.get(i).getUrl()%>"><img id="viewmp" src="<%= list.get(i).getImg()%>"></a></td>
-		<td><button type="checkbox" value="<%=i%>"></button></td><tr> 
-	
-		<%} }%>  --%>
-	<%-- 		<%for(int i =0;i<list.size();i++){ %>
-		 <td><img id="viewmp" src="<%= list.get(i).getImg()%>"></td>
-		 <td><button type="checkbox" value="<%=i%>"></button></td>
-		<%if(i == 4 ){ %>
-		</tr><td><img id="viewmp" src="<%= list.get(i).getImg()%>"></td>
-		<td><button type="checkbox" value="<%=i%>"></button></td><tr> 
-	
-		<%} }%> --%>
-		<td><img src="<%= mpost.getImg() %>"></td>
-		<%} %>		
+	<td><a href="<% list.get(i).getUrl(); %>"><img src="<% list.get(i).getImg(); %>"></a><button type="submit"  value="<%=i+1%>">삭제하기</button></td>
+	<%if(i ==4){ %>
+	</tr><td><a href="<% list.get(i).getUrl(); %>"><img src="<% list.get(i).getImg(); %>"></a><button type="submit"  value="<%=i+1%>">삭제하기</button></td><tr>
+	<% }} %>
 
+
+<tr>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+</tr>
+
+<tr>
+<td><button type="submit" >삭제하기</button></td>
 </tr>
 </table>
 
-<form name="mpost" id="mpost" method="post" action="/lb/mpinsert" enctype="multipart/form-data">
+</form> --%>
+<form action="/lb/mpdelete" method="post">
+<table align="center">
+<tr>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+<td><img id="viewmp" src="#"></td>
+</tr>
+<tr>
+<td colspan="4"><input type="submit" value="삭제하기"></td>
+</table>
+</form>
+<form method="post" action="/lb/mpinsert">
 <table align="center">
 <tr>
 <td>url : </td><td><input type="text" name="url1"></td>
