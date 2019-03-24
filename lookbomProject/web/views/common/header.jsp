@@ -157,6 +157,7 @@
  }
  	#navi li:hover ul{
  opacity:1;
+  z-index:2000;
  }
  	#navi li ul li{
  float:none;
@@ -164,6 +165,7 @@
  height:0;
  line-height:0;
  background:none;
+  
  }
  	#navi li:hover ul li{
  padding:10px 10;
@@ -171,6 +173,7 @@
  line-height:40px;
  /* background:rgba(0,0,0,0.4); */
  background:white;
+
  }
  	#navi li ul li a:hover{
  	font-weight:900;

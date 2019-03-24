@@ -35,14 +35,14 @@ public class MainPostDao {
 	public ArrayList<MainPost> selectPost(Connection conn) {
 		Statement stmt = null;
 		ResultSet rset = null;
-		String query = "select * from screen_banner order by banner_no asc";
-		ArrayList<MainPost> list = null;
+		String query = "select * from screen_banner order by banner_no";
+		ArrayList<MainPost> list = new ArrayList<>();
 		try {
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery(query);
 			while(rset.next()) {
 				MainPost post = new MainPost();
-				post.setPostNo(rset.getInt("seq_banner_no"));
+				post.setPostNo(rset.getInt("banner_no"));
 				post.setUrl(rset.getString("banner_url"));
 				post.setImg(rset.getString("banner_img"));
 				post.setCategory(rset.getInt("banner_division"));
