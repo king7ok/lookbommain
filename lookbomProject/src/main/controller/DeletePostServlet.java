@@ -1,8 +1,8 @@
 package main.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,10 +30,32 @@ public class DeletePostServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 메인포스트 삭제 서블릿
-		String rnum = request.getParameter("pdel");
-		int result = new MainPostService().deletePost(rnum);
+		// 메인포스트 삭제 서블릿;
+		int totals = 0;
+		String[] numStr = request.getParameterValues("mpdel");
+		System.out.println(numStr);
+		if(numStr.length == 0) {
+			RequestDispatcher view = request.getRequestDispatcher("/lb/views/adminMain/mainPostUpdate.jsp");
+		}
+		int[] rnum = new int[numStr.length];
+		for(int i = 0 ; i < numStr.length;i++) {
+			rnum[i] = Integer.parseInt(numStr[i]);
+			int result = new MainPostService().deletePost(rnum[i]);
+			if(result == 0) {
+				response.sendRedirect("/lb/index.jsp");
+			}
+			totals += result;
+		}
+		if(totals > 0) {
+			response.sendRedirect("mpselect");
+		}
+		
 	}
+		
+
+	
+	
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

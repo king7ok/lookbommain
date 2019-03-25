@@ -1,34 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="main.model.vo.MainPost, java.util.ArrayList"  %>
-    <%
+<%@page import="main.model.vo.MainPost, java.util.*" %>
+<%
 	ArrayList<MainPost> list = (ArrayList<MainPost>)request.getAttribute("list");
-    
-    %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="/lb/resources/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
-	/* $.ajax({
-		url:"/lb/mpselect",
-		type:"get",
-		dataType:"json",
-		success:function(data){
-			console.log("data"+data);
-			var jsonStr = JSON.stringify(data);
-			var json = JSON.parse(jsonStr);
-			
-			var values = "";
-			for(var i in json.list){
-				values += "<tr><td><img src='" + json.list[i].img + "'></td></tr>" ; 
-			}//for in
-			$("#mpselect").html($("mpselect").html()+values);
-		}
-	}); */
-</script>
+%>
 <style type="text/css">
  #row1 {
  	width:20vw;
@@ -56,42 +31,36 @@
  height:15vh;
  }
 </style>
-</head>
-<body style="padding:0; margin:0;">
-<%@ include file="../common/adminHeader.jsp" %>
-<br><br><br><br><br><br><br><br><br><br>
-
-<!-- <form name="mpselect" id="mpselect" method="post" action="/lb/mpselect" enctype="multipart/form-data"> -->
-  <form action="mpdelete" method="post">
+<%@ include file="../common/header.jsp"%>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<form action="/lb/mpdelete" method="post">
 <table align="center">
-<% for(int i = 0;i<list.size();i++){ %>
-<tr>
-	<td><a href="<% list.get(i).getUrl(); %>"><img src="<% list.get(i).getImg(); %>"></a><button onclick=""  value="<%=i+1%>">삭제하기</button></td>
-	<%if(i ==4){ %>
-	</tr><td><a href="<% list.get(i).getUrl(); %>"><img src="<% list.get(i).getImg(); %>"></a><button type="submit"  value="<%=i+1%>">삭제하기</button></td><tr>
-	<% }} %>
+	<tr>
+<%for(int i = 0; i < list.size(); i++){ %>
+	<%-- <td><img src="<%= list.get(i).getImg() %>"><input type="checkbox"></td> --%>
+	<%if(i%5 != 0){ %>
+	<td><img id="viewmp" src="/lb/file/Mpost/<%= list.get(i).getImg() %>"><input type="checkbox" name="mpdel" value="<%= list.get(i).getPostNo() %>"></td>
+	
+	<%}else{ %>
+	</tr><tr><td><a href="#"><img id="viewmp"  src="/lb/file/Mpost/<%= list.get(i).getImg() %>"></a><input type="checkbox" name="mpdel" value="<%= list.get(i).getPostNo() %>"></td>
+	<%}} %>
+	</tr>
+</table><br><Br><br>
+<div align="center" ><button type="submit" >삭제하기</button></div>
+</form>
 
-
-
-
-<!-- <form method="post" action="/lb/mpinsert">
+<br><br><br><br><br><br>
+<form method="post" action="/lb/mpinsert" enctype="multipart/form-data">
 <table align="center">
 <tr>
 <td>url : </td><td><input type="text" name="url1"></td>
 </tr>
 <tr>
-<td>img : </td><td><input type="text" name="img1"></td>
+<td>img : </td><td><input type="file" name="img1"></td>
 </tr>
 <tr>
-<td colspan="2" align="center"><button type="submit">등록</button></td>
+<td colspan="2" align="center"><button type="submit" >등록</button></td>
 </tr>
 </table>
 </form>
-<br><br><br>
-<table align="center">
-	<tr><td><button>수정하기</button><button>돌아가기</button></td></tr>
-</table> -->
-
-<%@ include file= "../common/footer.jsp" %>
-</body>
-</html>
+<%@ include file="../common/footer.jsp"%>

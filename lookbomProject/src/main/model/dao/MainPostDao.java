@@ -35,7 +35,7 @@ public class MainPostDao {
 	public ArrayList<MainPost> selectPost(Connection conn) {
 		Statement stmt = null;
 		ResultSet rset = null;
-		String query = "select * from screen_banner order by banner_no";
+		String query = "select * from screen_banner order by banner_no desc";
 		ArrayList<MainPost> list = new ArrayList<>();
 		try {
 			stmt = conn.createStatement();
@@ -59,9 +59,22 @@ public class MainPostDao {
 		return list;
 	}
 
-	public int deletePost(Connection conn, String rnum ) {
-		
+	public int deletePost(Connection conn, int rnum ) {
+		PreparedStatement stmt = null;
+		System.out.println("dao rnum : " + rnum);
 		int result = 0;
+		String query = "delete from screen_banner where banner_no = ?";
+		try {
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, rnum);
+			result = stmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+		}
+		
 		return result;
 	}
 

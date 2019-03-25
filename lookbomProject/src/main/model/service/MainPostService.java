@@ -15,7 +15,6 @@ public class MainPostService {
 	public MainPostService() {}
 	private MainPostDao mdao = new MainPostDao();
 	public int insertPost(MainPost mpost) {
-		
 		Connection conn = getConnection();
 		int result = mdao.insertPost(conn, mpost);
 		close(conn);
@@ -28,9 +27,11 @@ public class MainPostService {
 		close(conn);
 		return list;
 	}
-	public int deletePost(String rnum) {
+	public int deletePost(int rnum) {
 		Connection conn = getConnection();
 		int result = mdao.deletePost(conn,rnum);
+		close(conn);
+		System.out.println("service return : " + result);
 		return result;
 	}
 	

@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="user.model.vo.LookBomUser" %>
- 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>semi</title>
+<script type="text/javascript">
+/* 	function mpselect(){
+		location.href="/lb/mpselect";	
+	}; */
+</script>
 <style type="text/css">
 /* HTML  CSS  JS Result
 EDIT ON
@@ -177,8 +176,7 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 	display: inline-block;
 	}
 </style>
-</head>
-<body style="margin:0px; padding:0px;">
+
  <%@ include file="views/common/header.jsp" %>
 <br><br><br><br><br><br><br><br><br><br>
 
@@ -263,8 +261,8 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 <%-- <%if(loginUser != null && loginUser.getUserId().equals("admin")){ %>
 <button value="수정하기"><a href="#"></a></button>
 <%} %> --%>
-<button value="pupBtn"><a href="views/adminMain/mainPostUpdate.jsp">수정하기</a></button>
-
+<!-- <button value="pupBtn" onclick="mpselect()">수정하기</button> -->
+<a href="/lb/mpselect"> 수정하기</a>
 <a href="views/common/header.jsp">헤더</a>
 <a href="views/common/adminHeader.jsp">관리자헤더</a>
 <a href="views/side/side1.jsp">사이드1</a>
@@ -321,6 +319,3 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 </table>
 
  <%@ include file= "views/common/footer.jsp" %>
-
-</body>
-</html>

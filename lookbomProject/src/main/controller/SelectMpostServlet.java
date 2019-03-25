@@ -37,7 +37,8 @@ public class SelectMpostServlet extends HttpServlet {
 		
 		response.setContentType("text/html; charset:utf-8");
 		ArrayList<MainPost> list = new MainPostService().selectPost();
-		PrintWriter out =response.getWriter();
+		
+		
 		  RequestDispatcher view = null;
 		  if(list.size() > 0 ) {
 	   view = request.getRequestDispatcher("views/adminMain/mainPostUpdate.jsp");
