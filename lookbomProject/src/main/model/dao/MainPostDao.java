@@ -38,6 +38,7 @@ public class MainPostDao {
 		ResultSet rset = null;
 		String query = "select * from screen_banner order by banner_no desc";
 		ArrayList<MainPost> list = new ArrayList<>();
+		System.out.println(list);
 		try {
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery(query);

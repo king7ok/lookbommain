@@ -1,8 +1,0 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page import="main.model.vo.MainPost, java.util.*" %>
-<%
-	ArrayList<MainPost> list = (ArrayList<MainPost>)request.getAttribute("list");
-%>
-</body>
-</html>

@@ -1,6 +1,8 @@
 package main.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,7 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import main.model.service.MainPostService;
+import main.model.vo.MainPost;
 import main.model.vo.Product;
 
 /**
@@ -32,6 +38,27 @@ public class MainTop8Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Product> list= new MainPostService().selectTop8();
+		
+		System.out.println("메인 포스트 리턴리스트 : " + list);
+		
+		JSONObject sendJson = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		for(Product m : list) {
+			JSONObject job = new JSONObject();
+			
+			job.put("img", URLEncoder.encode(m.getImg(),"UTF-8"));
+			job.put("name", URLEncoder.encode(m.getProductName(),"UTF-8"));
+			
+			jsonArr.add(job);
+		}
+		sendJson.put("list", jsonArr);
+		
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.write(sendJson.toJSONString());
+		out.flush();
+		out.close();
 	}
 
 	/**

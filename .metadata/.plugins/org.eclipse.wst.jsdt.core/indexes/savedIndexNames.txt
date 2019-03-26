@@ -1,10 +1,7 @@
-INDEX VERSION 1.4+C:\lookbom\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2712812299.index
-1276882686.index
-42429703.index
-2339276901.index
-2672822801.index
-1163994424.index
-475814341.index
+INDEX VERSION 1.4+C:\workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
 3663963141.index
-42429703.index
+2339276901.index
+3156564243.index
+525096046.index
+2237355467.index
+3210916204.index

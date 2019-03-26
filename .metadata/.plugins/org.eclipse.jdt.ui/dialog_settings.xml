@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="OptionalMessageDialog.hide.">
 		<item value="false" key="configure_problem_severity_dialog_id"/>
+		<item value="false" key="EmptyDefaultAssistCategory"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
 		<item value="2" key="pageIndex"/>

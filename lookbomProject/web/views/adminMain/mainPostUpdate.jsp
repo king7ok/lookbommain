@@ -33,9 +33,11 @@
 </style>
 <%@ include file="../common/header.jsp"%>
 <br><br><br><br><br><br><br><br><br><br><br><br>
+
 <form action="/lb/mpdelete" method="post">
 <table align="center">
 	<tr>
+	
 <%for(int i = 0; i < list.size(); i++){ %>
 	<%-- <td><img src="<%= list.get(i).getImg() %>"><input type="checkbox"></td> --%>
 	<%if(i%5 != 0){ %>
@@ -43,11 +45,12 @@
 	
 	<%}else{ %>
 	</tr><tr><td><a href="#"><img id="viewmp"  src="/lb/file/Mpost/<%= list.get(i).getImg() %>"></a><input type="checkbox" name="mpdel" value="<%= list.get(i).getPostNo() %>"></td>
-	<%}} %>
+	<%}}%>
 	</tr>
 </table><br><Br><br>
 <div align="center" ><button type="submit" >삭제하기</button></div>
 </form>
+
 
 <br><br><br><br><br><br>
 <form method="post" action="/lb/mpinsert" enctype="multipart/form-data">

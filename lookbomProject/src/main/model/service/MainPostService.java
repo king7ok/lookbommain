@@ -25,6 +25,7 @@ public class MainPostService {
 	public ArrayList<MainPost> selectPost() {
 		Connection conn = getConnection();
 		ArrayList<MainPost> list = mdao.selectPost(conn);
+		System.out.println(list);
 		close(conn);
 		return list;
 	}

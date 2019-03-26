@@ -88,7 +88,7 @@
 									+ "<td id='textdiv'><img src='"+json.list[8].img+"'></td><tr>"
 			}
 		
-		}); */
+		}); 
 	});
 </script>
 <style type="text/css">
@@ -202,6 +202,7 @@ input:checked + .slide-container .nav label { display: block; }
     height: 11px;
     margin: 0 4px;
     position: relative;
+    
     border-radius: 100%;
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.6);
