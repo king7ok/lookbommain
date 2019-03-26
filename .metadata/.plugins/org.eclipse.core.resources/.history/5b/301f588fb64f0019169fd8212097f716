@@ -1,0 +1,12 @@
+package main.model.vo;
+
+public class Product {
+	private String img;
+	private String productName;
+	private int price;
+	private String brand;
+	private int discountRate;
+	private String color;
+	private String count;
+	
+}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import main.model.dao.MainPostDao;
 import main.model.vo.MainPost;
+import main.model.vo.Product;
 
 public class MainPostService {
 	ArrayList<MainPost> list = new ArrayList<>();
@@ -33,6 +34,13 @@ public class MainPostService {
 		close(conn);
 		System.out.println("service return : " + result);
 		return result;
+	}
+
+	public ArrayList<Product> selectTop8() {
+		Connection conn = getConnection();
+		ArrayList<Product>  list = mdao.selectTop8(conn);
+		close(conn);
+		return list;
 	}
 	
 	

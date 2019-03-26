@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import main.model.vo.MainPost;
+import main.model.vo.Product;
 public class MainPostDao {
 
 	public int insertPost(Connection conn, MainPost mpost) {
@@ -76,6 +77,28 @@ public class MainPostDao {
 		}
 		
 		return result;
+	}
+
+
+
+	public ArrayList<Product> selectTop8(Connection conn) {
+		ArrayList<Product> list = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rset = null;
+		String query = "";
+		try {
+			stmt = conn.createStatement();
+			rset =stmt.executeQuery(query);
+			while(rset.next()) {
+				
+			}
+		}catch(Exception e) {
+			
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return list;
 	}
 
 }
