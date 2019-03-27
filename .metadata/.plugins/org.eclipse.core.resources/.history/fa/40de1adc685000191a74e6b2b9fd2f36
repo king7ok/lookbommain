@@ -1,0 +1,62 @@
+package search.model.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import search.model.vo.Search;
+import static common.JDBCTemplate.*;
+public class SearchDao {
+	public Search insertSearch(Connection conn, String searchTitle) {
+		Search search= null;
+		return search;
+	}
+
+	public int countUp(Connection conn, String title) {
+		int result = 0;
+		PreparedStatement stmt = null;
+		String query = "update search set sc_count = (1+(select sc_count from search where search_title = ?))";
+		try {
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, title);
+			result = stmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+		}
+		return result;
+	}
+
+	public int checkTitle(Connection conn, String title) {
+		ArrayList<Search> list = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT * FROM SEARCH WHERE SEARCH_TITLE = ? ";
+		try {
+			
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, title);
+			rset = stmt.executeQuery();
+			
+			while(rset.next()) {
+				Search sc = new Search();
+				sc.setSearchTitle(rset.getString(title));
+				list.add(sc);
+			}
+			if(list.size() != 0) {
+				result =1;
+			}else {
+				result =0;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return result;
+	}
+}

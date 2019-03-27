@@ -26,12 +26,21 @@
 			var values = "";
 			var i =0;
 			for(i;i < json.list.length ;i++){
+				if(i==0){
 			values = "<input type='radio' name='radio-btn' id='img-" + (i+1) +"' checked/>"
 						+ "<li class = 'slide-container'>" 
 						+ "<div class='slide'>"
 						+ "<a href ='#'><img name ='img-" + (i+1) +"' src='/lb/file/Mpost/"+ json.list[i].img + "' ></a>"
 						+ "</div>"
 						+ "<div class='nav'>"; 
+				}else {
+					values = "<input type='radio' name='radio-btn' id='img-" + (i+1) +"'>"
+					+ "<li class = 'slide-container'>" 
+					+ "<div class='slide'>"
+					+ "<a href ='#'><img name ='img-" + (i+1) +"' src='/lb/file/Mpost/"+ json.list[i].img + "' ></a>"
+					+ "</div>"
+					+ "<div class='nav'>"; 
+				}
 						if( i == 0){
 							values+=
 							"<label for='img-" + json.list.length + "' class='prev'>&#x2039;</label>"
@@ -48,9 +57,9 @@
 						}
 						values2 +=values;
 			values3 +=  "<label for='img"+ (i+1)  +"' class='nav-dot' id='img-dot-"+(i+1)+"'><label>" ;
-			console.log(values2);
+		/* 	console.log(values2);
 			console.log(values3);
-			console.log(json.length);
+			console.log(json.length); */
 			
 						
 			}//for in 
@@ -62,7 +71,7 @@
 		}
 		
 	});
-		/* $.ajax({
+		/* /* $.ajax({
 			url:"/lb/mptop8",
 			type:"post",
 			success: function(data){
@@ -70,7 +79,7 @@
 				var jsonStr = JSON.stringify(data);
 				var json = JSON.parse(jsonStr);
 				
-				var values = "<tr><td id='imgdiv'><img src='"+json.list[1].img+"'></td>"
+				var values = "<tr><td id='imgdiv'><img src='/lb/file/product"+json.list[1].img+"'></td>"
 									+ "<td id='imgdiv'><img src='"+json.list[2].img+"'></td>"
 									+ "<td id='imgdiv'><img src='"+json.list[3].img+"'></td>"
 									+ "<td id='imgdiv'><img src='"+json.list[4].img+"'></td><tr>"
@@ -88,7 +97,7 @@
 									+ "<td id='textdiv'><img src='"+json.list[8].img+"'></td><tr>"
 			}
 		
-		}); 
+		});  */
 	});
 </script>
 <style type="text/css">
@@ -255,12 +264,19 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 	}
 	/* man women 버튼css*/
 /* 	#men, */
-	.womeon{
+	#womeon,
+	#men {
 	background-color: white; /* Green */
  	border: none;
 	padding:0px;
 	margin:0;
 	display: inline-block;
+	color:rgba(255,255,255,0.5);
+	}
+	#men:checked,
+	#women:checked {
+	height:1vh;
+	width:3vw;
 	}
 </style>
 
@@ -368,8 +384,8 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 	<td style="width:5vw;"></td>
 	<td style="width:3vw;"><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEST</h1></td>
 	<td style="width:1vw;"></td>
-	<td style="width:3vw;"><a class="man" onclick="menList();">MEN</a></td>
-	<td style="width:3vw;"><a class="women" onclick="womenList();">WOMEN</a></td>
+	<td style="width:3vw;"><input type="button" id="man" value="man" onclick="menList();" checked/></td>
+	<td style="width:3vw;"><input type="button"  id="women" value="women"  onclick="womenList();"></td>
 	<td></td>
 </tr>
 </table>

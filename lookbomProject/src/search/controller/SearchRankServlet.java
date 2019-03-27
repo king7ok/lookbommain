@@ -1,0 +1,66 @@
+package search.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import search.model.service.SearchService;
+import search.model.vo.Search;
+
+/**
+ * Servlet implementation class SearchRank
+ */
+@WebServlet("/srank")
+public class SearchRankServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SearchRankServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Search> list = new SearchService().selectRank();
+		System.out.println("인기검색어 서블릿 : " +list);
+		JSONObject sendJson = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		for(Search s : list) {
+			JSONObject job = new JSONObject();
+			job.put("title", URLEncoder.encode(s.getSearchTitle(), "utf-8"));
+			jsonArr.add(job);
+		}
+		sendJson.put("list", jsonArr);
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.write(sendJson.toJSONString());
+		out.flush();
+		out.close();
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
