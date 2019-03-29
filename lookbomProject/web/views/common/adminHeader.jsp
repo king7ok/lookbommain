@@ -202,14 +202,14 @@
 	</div>
 </div>
 <div class ="top_fix_zone" id="topbar1">
-<a href="#" ><img src="/semi/resources/images/로고2.png" id="logo2"></a>
-<a href="#"><img src="/semi/resources/images/로고.png" id="logo"></a>
+<a href="#" ><img src="/lb/resources/images/로고2.png" id="logo2"></a>
+<a href="#"><img src="/lb/resources/images/로고.png" id="logo"></a>
 
 <div  style="width:26%;height:130px;  float:right;">
-<a id="mybar" href="#"><img src="/semi/resources/images/로그인.jpg">상품관리</a>
-<a id="mybar" href="#"><img src="/semi/resources/images/회원가입.jpg">회원관리</a>
-<a id="mybar" href="#"><img src="/semi/resources/images/게시판관리.jpg">게시판관리</a>
-<a id="mybar" href="#"><img src="/semi/resources/images/주문관리.jpg">주문관리</a><br>
+<a id="mybar" href="#"><img src="/lb/resources/images/로그인.jpg">상품관리</a>
+<a id="mybar" href="#"><img src="/lb/resources/images/회원가입.jpg">회원관리</a>
+<a id="mybar" href="#"><img src="/lb/resources/images/게시판관리.jpg">게시판관리</a>
+<a id="mybar" href="#"><img src="/lb/resources/images/주문관리.jpg">주문관리</a><br>
 
 <!-- 실시간 랭킹바  -->
 <select id="rank" name="rank">
@@ -224,7 +224,7 @@
 	<option id="rank9">9. </option>
 	<option id="rank10">10.</option>
 </select>
-<button id="myBtn" onclick=""><img src="/semi/resources/images/검색.jpg"></button>
+<button id="myBtn" onclick=""><img src="/lb/resources/images/검색.jpg"></button>
 
 </div>
 

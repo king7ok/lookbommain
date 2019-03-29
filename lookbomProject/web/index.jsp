@@ -6,9 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
 <script src="/lb/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+/* 	function manList(){
+		&.ajax({
+			url:"/lb/mptop8?gender=M",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var jsonStr = JSON.stringify(data);
+				var json = JSON.parse(jsonStr);
+			}
+		});	
+	}; */
 	$(function(){
 		$.ajax({
 	
@@ -100,26 +111,27 @@
 		});  */
 	});
 </script>
+
 <style type="text/css">
 /* HTML  CSS  JS Result
 EDIT ON
  @import url(https://fonts.googleapis.com/css?family=Varela+Round); */
 @media all and(max-width:670px){
-	.slides {position:absolute;}
+	.slides {position:relative;}
 }
 
  body {
  padding:0px;
  margin:0px; /* background: #333 url("https://codepen.io/images/classy_fabric.png");  */
- border:1px slide rgba(67,67,67,0.9);
- align:center;
+ 
+ 
 
  }
 
 .slides {
    z-index:2;
-    width: 80vw;
-    height: 80vh;
+    width: 1000px;
+    height: 600px;
     display: block;
     margin: 0 auto;
      padding: 0;
@@ -144,11 +156,11 @@ EDIT ON
 .slide {
     top: 0;
     opacity: 0;
-    width: 80vw;
-    height: 80vh;
+     width: 1000px;
+    height: 600px;
     display: block;
     position: absolute;
-
+	
     transform: scale(0);
 
     transition: all .7s ease-in-out;
@@ -161,7 +173,7 @@ EDIT ON
 
 .nav label {
     width: 200px;
-    height: 100%;
+    height: 600px;
     display: none;
     position: absolute;
 
@@ -197,7 +209,7 @@ input:checked + .slide-container  .slide {
 input:checked + .slide-container .nav label { display: block; }
 
 .nav-dots {
-    width: 100%;
+    width: 1000px;
     bottom: 9px;
     height: 11px;
     display: block;
@@ -206,10 +218,10 @@ input:checked + .slide-container .nav label { display: block; }
 }
 
 .nav-dots .nav-dot {
-    top: -5px;
-    width: 11px;
-    height: 11px;
-    margin: 0 4px;
+    /* top: px; */
+    width: 10px;
+    height: 10px;
+    margin: 5px;
     position: relative;
     
     border-radius: 100%;
@@ -279,9 +291,11 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 	width:3vw;
 	}
 </style>
+</head>
+<body>
+<%@ include file="views/common/header.jsp" %>
+ 
 
- <%@ include file="views/common/header.jsp" %>
-<br><br><br><br><br><br><br><br><br><br>
 
  
 <ul class="slides">
@@ -373,6 +387,7 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 <a href="views/side/side3.jsp">사이드3</a>
 <a href="views/side/side4.jsp">사이드4</a>
 <a href="views/side/side5.jsp">사이드5</a>
+<a href="views/side/adminSide.jsp">어드민사이드</a>
 <br>
 <br>
 
@@ -422,3 +437,5 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 </table>
 
  <%@ include file= "views/common/footer.jsp" %>
+</body>
+</html>

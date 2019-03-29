@@ -11,8 +11,9 @@ import static common.JDBCTemplate.*;
 public class SearchDao {
 	public int insertSearch(Connection conn, String title) {
 		int result = 0;
+		System.out.println("insertdao 에서받은 title : " +title);
 		PreparedStatement stmt = null;
-		String query = "INSERT INTO SEARCH(SEARCH_NO, SEARCH_TITLE, SC_COUNT) VALUES (SEQ_SEARCH_NO.NEXTVAL, ?, 1);";
+		String query = "INSERT INTO SEARCH(SEARCH_NO, SEARCH_TITLE, SC_COUNT) VALUES (SEQ_SEARCH_NO.NEXTVAL, ?, 1)";
 		try {
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, title);
@@ -22,22 +23,25 @@ public class SearchDao {
 		}finally {
 			close(stmt);
 		}
+		System.out.println("insertdao 결과 result : " + result);
 		return result;
 	}
 
 	public int countUp(Connection conn, String title) {
 		int result = 0;
 		PreparedStatement stmt = null;
-		String query = "update search set sc_count = (1+(select sc_count from search where search_title = ?))";
+		String query = "update search set sc_count = (1+(select sc_count from search where search_title = ?)) where search_title = ?";
 		try {
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, title);
+			stmt.setString(2, title);
 			result = stmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
 			
 		}
+		System.out.println("카운트업 dao result : " + result);
 		return result;
 	}
 
@@ -52,17 +56,19 @@ public class SearchDao {
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, title);
 			rset = stmt.executeQuery();
-			
 			while(rset.next()) {
-				Search sc = new Search();
-				sc.setSearchTitle(rset.getString(title));
-				list.add(sc);
+				Search s = new Search();
+				s.setSearchNo(rset.getInt("search_no"));
+				s.setSearchTitle(rset.getString("search_title"));
+				s.setCount(rset.getInt("sc_count"));
+				list.add(s);
 			}
-			if(list.size() != 0) {
-				result =1;
+			if(list.size() == 0) {
+				result = 0;
 			}else {
-				result =0;
+				result = 1;
 			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -79,6 +85,7 @@ public class SearchDao {
 		String query = "select search_title from search order by sc_count ";
 		try {
 			stmt = conn.createStatement();
+			
 			rset = stmt.executeQuery(query);
 			while(rset.next()) {
 				Search s = new Search();

@@ -1,0 +1,435 @@
+package product.model.dao;
+
+import static common.JDBCTemplate.close;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import product.model.vo.Product;
+import product.model.vo.ProductDetail;
+import product.model.vo.ProductFull;
+
+public class ProductDao {
+
+	public ProductDao() {}
+    
+	//상품 조회수 증가
+	public int addViewCount(Connection conn, int productNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = "update product set view_count = view_count + 1 where product_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, productNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+    
+	//상품상세조회
+	public ArrayList<ProductFull> selectProduct(Connection conn, int productNo) {		
+		ArrayList<ProductFull> list  = new ArrayList<ProductFull>();				
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = "select product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+		+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+		+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+		+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+		+" from product"
+		+" join product_detail using (product_no)"
+		+" where product_no = ?";
+		
+		try {
+		  pstmt = conn.prepareStatement(query);
+		  pstmt.setInt(1, productNo);
+		  
+		  rset = pstmt.executeQuery();
+		  
+		  while(rset.next()) {
+			  ProductFull productFull = new ProductFull();
+			  
+			  productFull.setProductNo(rset.getInt("product_no"));
+			  productFull.setProductName(rset.getString("product_name"));
+			  productFull.setProductType(rset.getString("product_type"));
+			  productFull.setBrand(rset.getString("brand"));
+			  productFull.setBrand_image(rset.getString("brand_image"));
+			  productFull.setSeason(rset.getString("season"));
+			  productFull.setSex(rset.getString("sex"));
+			  productFull.setProductPrice(rset.getInt("product_price"));
+			  productFull.setDiscountRate(rset.getDouble("discount_rate"));
+			  productFull.setSizeCategory(rset.getString("size_category"));
+			  productFull.setSizeContents(rset.getString("size_contents"));
+			  productFull.setMoreInto(rset.getString("more_info"));
+			  productFull.setViewCount(rset.getInt("view_count"));			  
+			  productFull.setResiter(rset.getDate("resiter"));
+			  productFull.setProductLike(rset.getInt("product_like"));		
+			  productFull.setProductDetailNo(rset.getInt("product_detail_no"));
+			  productFull.setProductColor(rset.getString("product_color"));
+			  productFull.setProductImage1(rset.getString("product_image1"));
+			  productFull.setProductImage2(rset.getString("product_image2"));
+			  productFull.setProductImage3(rset.getString("product_image3"));
+			  productFull.setProductImage4(rset.getString("product_image4"));
+			  productFull.setProductImage5(rset.getString("product_image5"));			  
+			  productFull.setSsizeQuantity(rset.getInt("ssize_quantity"));
+			  productFull.setMsizeQuantity(rset.getInt("msize_quantity"));
+			  productFull.setLsizeQuantity(rset.getInt("lsize_quantity"));
+			  productFull.setXlsizeQuantity(rset.getInt("xlsize_quantity"));
+			  productFull.setTotalEnterQuantity(rset.getInt("total_enter_quantity"));
+			  productFull.setTotalSaleRate(rset.getInt("total_sales_rate"));
+		
+			  list.add(productFull);
+		  }
+		  
+		} catch(Exception e) {
+			 e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	//상품 리스트 갯수
+	public int getListCount(Connection conn) {
+		int listCount = 0;
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+	String query = "select count(*) from product_detail";
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;	
+	}
+    
+	//상품 리스트 출력
+	public ArrayList<ProductFull> selectList(Connection conn, int currentPage, int limit) {
+		ArrayList<ProductFull> list = new ArrayList<ProductFull>();   		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int startRow = (currentPage -1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		String query = "select * from"
+				          +" (select rownum rnum, product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+						+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+						+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+						+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+				+" from (select * from product join product_detail using (product_no) order by product_no desc, product_detail_no desc))"
+				+" where rnum >= ? and rnum <= ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+             rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				  ProductFull productFull = new ProductFull();
+				  
+				  productFull.setProductNo(rset.getInt("product_no"));
+				  productFull.setProductName(rset.getString("product_name"));
+				  productFull.setProductType(rset.getString("product_type"));
+				  productFull.setBrand(rset.getString("brand"));
+				  productFull.setBrand_image(rset.getString("brand_image"));
+				  productFull.setSeason(rset.getString("season"));
+				  productFull.setSex(rset.getString("sex"));
+				  productFull.setProductPrice(rset.getInt("product_price"));
+				  productFull.setDiscountRate(rset.getDouble("discount_rate"));
+				  productFull.setSizeCategory(rset.getString("size_category"));
+				  productFull.setSizeContents(rset.getString("size_contents"));
+				  productFull.setMoreInto(rset.getString("more_info"));
+				  productFull.setViewCount(rset.getInt("view_count"));			  
+				  productFull.setResiter(rset.getDate("resiter"));
+				  productFull.setProductLike(rset.getInt("product_like"));		
+				  productFull.setProductDetailNo(rset.getInt("product_detail_no"));
+				  productFull.setProductColor(rset.getString("product_color"));
+				  productFull.setProductImage1(rset.getString("product_image1"));
+				  productFull.setProductImage2(rset.getString("product_image2"));
+				  productFull.setProductImage3(rset.getString("product_image3"));
+				  productFull.setProductImage4(rset.getString("product_image4"));
+				  productFull.setProductImage5(rset.getString("product_image5"));			  
+				  productFull.setSsizeQuantity(rset.getInt("ssize_quantity"));
+				  productFull.setMsizeQuantity(rset.getInt("msize_quantity"));
+				  productFull.setLsizeQuantity(rset.getInt("lsize_quantity"));
+				  productFull.setXlsizeQuantity(rset.getInt("xlsize_quantity"));
+				  productFull.setTotalEnterQuantity(rset.getInt("total_enter_quantity"));
+				  productFull.setTotalSaleRate(rset.getInt("total_sales_rate"));
+			
+				  list.add(productFull);
+				
+			}
+			
+		}catch (Exception e) {
+		 e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return list;
+	}
+    
+	//상품 브랜드 목록조회
+	public ArrayList<String> getBrand(Connection conn) {
+		ArrayList<String> brand = new ArrayList<String>();
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+	String query = "select distinct brand from product";
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			while(rset.next()) {
+			brand.add(rset.getString("brand"));
+			}
+			
+	}catch (Exception e) {
+		e.printStackTrace();
+	}finally {
+		close(rset);
+		close(stmt);
+	}
+
+	return brand;
+	
+	}
+
+	public int getListCount(Connection conn, String filterbrand) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+	String query = "select count(*) from product join product_detail using (product_no) where brand = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, filterbrand);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+	}
+
+	public ArrayList<ProductFull> selectList(Connection conn, int currentPage, int limit, String filterbrand,
+			String filterkey) {
+		ArrayList<ProductFull> list = new ArrayList<ProductFull>();   		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int startRow = (currentPage -1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		String query = "";
+		if(filterkey.equals("최신순"))
+		query = "select * from" 
+				          +" (select rownum rnum, product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+						+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+						+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+						+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+				+" from (select * from product join product_detail using (product_no) where brand = ? order by resiter desc, product_no desc, product_detail_no desc))"
+				+" where rnum >= ? and rnum <= ? ";
+		else
+			query = "select * from"
+			          +" (select rownum rnum, product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+					+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+					+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+					+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+			+" from (select * from product join product_detail using (product_no) where brand = ? order by view_count desc, total_sales_rate desc, product_no desc, product_detail_no desc))"
+			+" where rnum >= ? and rnum <= ? ";	
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, filterbrand);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+             rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				  ProductFull productFull = new ProductFull();
+				  
+				  productFull.setProductNo(rset.getInt("product_no"));
+				  productFull.setProductName(rset.getString("product_name"));
+				  productFull.setProductType(rset.getString("product_type"));
+				  productFull.setBrand(rset.getString("brand"));
+				  productFull.setBrand_image(rset.getString("brand_image"));
+				  productFull.setSeason(rset.getString("season"));
+				  productFull.setSex(rset.getString("sex"));
+				  productFull.setProductPrice(rset.getInt("product_price"));
+				  productFull.setDiscountRate(rset.getDouble("discount_rate"));
+				  productFull.setSizeCategory(rset.getString("size_category"));
+				  productFull.setSizeContents(rset.getString("size_contents"));
+				  productFull.setMoreInto(rset.getString("more_info"));
+				  productFull.setViewCount(rset.getInt("view_count"));			  
+				  productFull.setResiter(rset.getDate("resiter"));
+				  productFull.setProductLike(rset.getInt("product_like"));		
+				  productFull.setProductDetailNo(rset.getInt("product_detail_no"));
+				  productFull.setProductColor(rset.getString("product_color"));
+				  productFull.setProductImage1(rset.getString("product_image1"));
+				  productFull.setProductImage2(rset.getString("product_image2"));
+				  productFull.setProductImage3(rset.getString("product_image3"));
+				  productFull.setProductImage4(rset.getString("product_image4"));
+				  productFull.setProductImage5(rset.getString("product_image5"));			  
+				  productFull.setSsizeQuantity(rset.getInt("ssize_quantity"));
+				  productFull.setMsizeQuantity(rset.getInt("msize_quantity"));
+				  productFull.setLsizeQuantity(rset.getInt("lsize_quantity"));
+				  productFull.setXlsizeQuantity(rset.getInt("xlsize_quantity"));
+				  productFull.setTotalEnterQuantity(rset.getInt("total_enter_quantity"));
+				  productFull.setTotalSaleRate(rset.getInt("total_sales_rate"));
+			
+				  list.add(productFull);
+				
+			}
+			
+		}catch (Exception e) {
+		 e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return list;
+	}
+
+	public ArrayList<ProductFull> selectList(Connection conn, int currentPage, int limit, String filterkey) {
+		ArrayList<ProductFull> list = new ArrayList<ProductFull>();   		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int startRow = (currentPage -1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		String query = "";
+		if(filterkey.equals("최신순"))
+		query = "select * from"
+				          +" (select rownum rnum, product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+						+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+						+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+						+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+				+" from (select * from product join product_detail using (product_no) order by resiter desc, product_no desc, product_detail_no desc))"
+				+" where rnum >= ? and rnum <= ? ";
+		else
+			query = "select * from"
+			          +" (select rownum rnum, product_no, product_name, product_type, brand, brand_image, season, sex, product_price, discount_rate,"
+					+" size_category, size_contents, more_info, view_count, resiter, product_like,"
+					+" product_detail_no, product_color, product_image1, product_image2, product_image3, product_image4, product_image5,"
+					+" ssize_quantity, msize_quantity, lsize_quantity, xlsize_quantity, total_enter_quantity, total_sales_rate"
+			+" from (select * from product join product_detail using (product_no) order by view_count desc, total_sales_rate desc, product_no desc, product_detail_no desc))"
+			+" where rnum >= ? and rnum <= ? ";	
+		
+		try {
+			pstmt = conn.prepareStatement(query);		
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+             rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				  ProductFull productFull = new ProductFull();
+				  
+				  productFull.setProductNo(rset.getInt("product_no"));
+				  productFull.setProductName(rset.getString("product_name"));
+				  productFull.setProductType(rset.getString("product_type"));
+				  productFull.setBrand(rset.getString("brand"));
+				  productFull.setBrand_image(rset.getString("brand_image"));
+				  productFull.setSeason(rset.getString("season"));
+				  productFull.setSex(rset.getString("sex"));
+				  productFull.setProductPrice(rset.getInt("product_price"));
+				  productFull.setDiscountRate(rset.getDouble("discount_rate"));
+				  productFull.setSizeCategory(rset.getString("size_category"));
+				  productFull.setSizeContents(rset.getString("size_contents"));
+				  productFull.setMoreInto(rset.getString("more_info"));
+				  productFull.setViewCount(rset.getInt("view_count"));			  
+				  productFull.setResiter(rset.getDate("resiter"));
+				  productFull.setProductLike(rset.getInt("product_like"));		
+				  productFull.setProductDetailNo(rset.getInt("product_detail_no"));
+				  productFull.setProductColor(rset.getString("product_color"));
+				  productFull.setProductImage1(rset.getString("product_image1"));
+				  productFull.setProductImage2(rset.getString("product_image2"));
+				  productFull.setProductImage3(rset.getString("product_image3"));
+				  productFull.setProductImage4(rset.getString("product_image4"));
+				  productFull.setProductImage5(rset.getString("product_image5"));			  
+				  productFull.setSsizeQuantity(rset.getInt("ssize_quantity"));
+				  productFull.setMsizeQuantity(rset.getInt("msize_quantity"));
+				  productFull.setLsizeQuantity(rset.getInt("lsize_quantity"));
+				  productFull.setXlsizeQuantity(rset.getInt("xlsize_quantity"));
+				  productFull.setTotalEnterQuantity(rset.getInt("total_enter_quantity"));
+				  productFull.setTotalSaleRate(rset.getInt("total_sales_rate"));
+			
+				  list.add(productFull);
+				
+			}
+			
+		}catch (Exception e) {
+		 e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return list;
+	}
+
+	public ArrayList<ProductFull> searchSelectList(Connection conn,String sName, int currentPage, int limit) {
+		PreparedStatement stmt = null;
+		ResultSet rset = null;
+		String query = "select * from product where product_name = ? or product_type = ? or season = ?";
+		try {
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, sName);
+			stmt.setString(2, sName);
+			stmt.setString(3, sName);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+		}
+		return null;
+	}
+
+	
+}
