@@ -1,6 +1,16 @@
 package search.model.vo;
 
-public class Search {
+import java.io.Serializable;
+
+public class Search implements Serializable{
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2049235884911136650L;
 	private int searchNo;
 	private String searchTitle;
 	private int count;

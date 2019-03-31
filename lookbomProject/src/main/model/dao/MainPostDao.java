@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import main.model.vo.MainPost;
-import main.model.vo.Product;
+import main.model.vo.Product1;
 public class MainPostDao {
 
 	public int insertPost(Connection conn, MainPost mpost) {
@@ -38,7 +38,7 @@ public class MainPostDao {
 		ResultSet rset = null;
 		String query = "select * from screen_banner order by banner_no desc";
 		ArrayList<MainPost> list = new ArrayList<>();
-		System.out.println(list);
+	/*	System.out.println(list);*/
 		try {
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery(query);
@@ -82,23 +82,36 @@ public class MainPostDao {
 
 
 
-	public ArrayList<Product> selectTop8(Connection conn) {
-		ArrayList<Product> list = new ArrayList<>();
+	public ArrayList<Product1> selectTop8(Connection conn) {
+		ArrayList<Product1> list = new ArrayList<Product1>();
 		Statement stmt = null;
 		ResultSet rset = null;
-		String query = "";
+		String query = "select * from product  join product_detail using(product_no) where rownum <=8 order by total_sales_rate desc";
 		try {
 			stmt = conn.createStatement();
-			rset =stmt.executeQuery(query);
+			rset = stmt.executeQuery(query);
+	     
 			while(rset.next()) {
 				
+				Product1 p = new Product1();
+				
+				p.setImg(rset.getString("product_image1"));
+				p.setProductName(rset.getString("product_name"));
+				p.setBrand(rset.getString("brand"));
+				p.setProductPrice(rset.getInt("product_price"));
+				p.setDiscountRate(rset.getDouble("discount_rate"));
+				p.setViewCount(rset.getInt("view_count"));
+				
+				list.add(p);
 			}
+		
 		}catch(Exception e) {
 			
 		}finally {
 			close(rset);
 			close(stmt);
 		}
+		System.out.println("top8 dao list : " + list);
 		return list;
 	}
 

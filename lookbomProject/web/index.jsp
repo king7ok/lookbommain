@@ -82,33 +82,36 @@
 		}
 		
 	});
-		/* /* $.ajax({
-			url:"/lb/mptop8",
-			type:"post",
-			success: function(data){
-				
-				var jsonStr = JSON.stringify(data);
-				var json = JSON.parse(jsonStr);
-				
-				var values = "<tr><td id='imgdiv'><img src='/lb/file/product"+json.list[1].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[2].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[3].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[4].img+"'></td><tr>"
-								+"<tr><td id='textdiv'><img src='"+json.list[1].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[2].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[3].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[4].img+"'></td><tr>"
-								+"<tr><td id='imgdiv'><img src='"+json.list[5].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[6].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[7].img+"'></td>"
-									+ "<td id='imgdiv'><img src='"+json.list[8].img+"'></td><tr>"
-								+"<tr><td id='textdiv'><img src='"+json.list[5].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[6].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[7].img+"'></td>"
-									+ "<td id='textdiv'><img src='"+json.list[8].img+"'></td><tr>"
-			}
-		
-		});  */
+	});
+	$(function(){
+		 $.ajax({
+			 url: "/lb/mptop8",
+				type: "post",
+				dataType: "json",
+				success: function(data){
+					
+					console.log(data);
+					var jsonStr = JSON.stringify(data);
+					var json = JSON.parse(jsonStr);
+					var value1 = "";
+					var value2 = "";
+					var value3 = "";
+					var value4 = "";
+			
+					for(var i = 0; i <json.list.length; i++){
+						 
+							value1+="<td id='imgdiv'><img src='/lb/file/Mpost/"+json.list[i].img+"'></td>";
+							value2+="<td id='textdiv'>"+decodeURIComponent(json.list[i].brand) + "<br>"+decodeURIComponent(json.list[i].productName)+"<br>"+json.list[i].price+"<br>"+json.list[i].discountRate+"&nbsp;&nbsp;"+(json.list[1].price-(json.list[i].price*json.list[i].discountRate))+"<br>"+json.list[i].viewCount+ "</td>";
+						
+					if(i >3){
+						value3+="<td id='imgdiv'><img src='/lb/file/Mpost/"+json.list[i].img+"'></td>";
+						value4+="<td id='textdiv'>"+decodeURIComponent(json.list[i].brand) + "<br>"+decodeURIComponent(json.list[i].productName)+"<br>"+json.list[i].price+"<br>"+json.list[i].discountRate+"&nbsp;&nbsp;"+(json.list[1].price-(json.list[i].price*json.list[i].discountRate))+"<br>"+json.list[i].viewCount+ "</td>";
+					} 
+					}
+					$(".top8").html($(".top8").html()+"<tr>"+value1+ "<tr></tr>"+ value2+ "<tr></tr>"+value3+ "<tr></tr>"+value4+  "<tr>");
+					}
+
+			}); 
 	});
 </script>
 
@@ -407,6 +410,18 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 
 
 <table class="top8" align = "center" >
+<!-- <tr>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+</tr>
+<tr>
+	<td id="textdiv">brand<br>상품명<br>가격<br>할인율/최종가격<br>조회수	<br></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+</tr>
 <tr>
 	<td id="imgdiv"></td>
 	<td id="imgdiv"></td>
@@ -418,19 +433,7 @@ input#img-6:checked ~ .nav-dots label#img-dot-6 {
 	<td id="textdiv"></td>
 	<td id="textdiv"></td>
 	<td id="textdiv"></td>
-</tr>
-<tr>
-	<td id="imgdiv"></td>
-	<td id="imgdiv"></td>
-	<td id="imgdiv"></td>
-	<td id="imgdiv"></td>
-</tr>
-<tr>
-	<td id="textdiv"></td>
-	<td id="textdiv"></td>
-	<td id="textdiv"></td>
-	<td id="textdiv"></td>
-</tr>
+</tr> -->
 </table>
 <table>
 

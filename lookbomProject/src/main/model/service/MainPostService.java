@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import main.model.dao.MainPostDao;
 import main.model.vo.MainPost;
-import main.model.vo.Product;
+import main.model.vo.Product1;
 
 public class MainPostService {
 	ArrayList<MainPost> list = new ArrayList<>();
@@ -37,9 +37,9 @@ public class MainPostService {
 		return result;
 	}
 
-	public ArrayList<Product> selectTop8() {
+	public ArrayList<Product1> selectTop8() {
 		Connection conn = getConnection();
-		ArrayList<Product>  list = mdao.selectTop8(conn);
+		ArrayList<Product1>  list = mdao.selectTop8(conn);
 		close(conn);
 		return list;
 	}

@@ -7,6 +7,8 @@ import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import product.model.vo.ProductFull;
 public class SearchService {
 	public SearchService() {}
 	private SearchDao sdao  = new SearchDao();
@@ -36,5 +38,17 @@ public class SearchService {
 		ArrayList<Search> list = sdao.selectRank(conn);
 		close(conn);
 		return list;
+	}
+	public ArrayList<ProductFull> searchSelectList(String sName, int currentPage, int limit) {
+		Connection conn = getConnection();
+		ArrayList<ProductFull> list = sdao.searchSelectList(conn,sName,currentPage,limit);
+		close(conn);
+		return list;
+	}
+	public int getListCount(String sName) {
+		Connection conn = getConnection();
+		int listCount = sdao.getListCount(conn, sName);
+		close(conn);
+		return listCount;
 	}
 }

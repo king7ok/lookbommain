@@ -39,7 +39,7 @@ public class SelectMainSlideServlet extends HttpServlet {
 		//메인포스트 ajax
 		
 		ArrayList<MainPost> list = new MainPostService().selectPost();
-		System.out.println("메인 포스트 리턴리스트 : " + list);
+		/*System.out.println("메인 포스트 리턴리스트 : " + list);*/
 		
 		JSONObject sendJson = new JSONObject();
 		JSONArray jsonArr = new JSONArray();

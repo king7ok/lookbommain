@@ -15,6 +15,11 @@
 </head>
 <script src="/lb/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+	$(".close").click(function(){
+		var max = document.getElementById(".searchmax");
+		max.style.display = none;
+	});
       
       $(function (){
          /* $.ajax({
@@ -94,10 +99,10 @@
             var max = document.getElementById("searchmax");
             max.style.display = "none"; } 
          };  */
-         $(".close").click(function(){
+        /*  $(".close").click(function(){
             var max = document.getElementById("searchmax");
             max.style.display = "none";
-         });
+         }); */
    /*  $(window).scroll(function(){
       var scroll = $(window).scrollTop();
       if(scroll != 0){
@@ -500,7 +505,7 @@
    </table>
    </div>
    
-   <span onclick="close();" class="close" >&times;</span> 
+   <div class="close">x</div>
 </div>
 <!-- 검색창  -->
 </div>

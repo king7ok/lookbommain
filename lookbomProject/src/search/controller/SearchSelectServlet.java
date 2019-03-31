@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import product.model.service.ProductService;
 import product.model.vo.ProductFull;
+import search.model.service.SearchService;
 
 /**
  * Servlet implementation class SearchSelectServlet
@@ -41,13 +41,13 @@ public class SearchSelectServlet extends HttpServlet {
 	       
 	       int limit = 20;
 	       	      
-	       ProductService pservice = new ProductService();
+	       SearchService service = new SearchService();
 	       
 	       
-	       int listCount = pservice.getListCount();
+	       int listCount = service.getListCount(sName);
 
 	       
-	       ArrayList<ProductFull> list = pservice.searchSelectList(sName, currentPage, limit);
+	       ArrayList<ProductFull> list = service.searchSelectList(sName, currentPage, limit);
 	       System.out.println(list);
 	       
 	       int maxPage = (int)((double)listCount / limit + 0.95);
@@ -60,23 +60,23 @@ public class SearchSelectServlet extends HttpServlet {
 	           endPage = maxPage;   
 	        }
 	       
-	       ArrayList<String> brand = pservice.getBrand();	    
+	     
 	       
 	       response.setContentType("text/html; charset=UTF-8");
 	       RequestDispatcher view = null;
 	       if(list.size() > 0) {
-	           view = request.getRequestDispatcher("views/product/productListView.jsp");
+	           view = request.getRequestDispatcher("index.jsp");
 	           request.setAttribute("list", list);
 	           request.setAttribute("currentPage", currentPage);
 	           request.setAttribute("maxPage", maxPage);
 	           request.setAttribute("startPage", startPage);
 	           request.setAttribute("endPage", endPage);
 	           request.setAttribute("listCount", listCount);
-	           request.setAttribute("brand", brand);
+	           
 	           
 	           view.forward(request, response);
 	       }else {
-	          view = request.getRequestDispatcher("views/index.jsp");
+	          view = request.getRequestDispatcher("index.jsp");
 	          /*request.setAttribute("message", currentPage + "에 대한 상품목록 조회 실패");*/
 	          view.forward(request, response);
 	       }

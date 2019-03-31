@@ -1,6 +1,16 @@
 package main.model.vo;
 
-public class MainPost {
+import java.io.Serializable;
+
+public class MainPost implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1215L;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public int postNo;
 	public String url;
 	public String img;

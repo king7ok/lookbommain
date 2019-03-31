@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 
 import main.model.service.MainPostService;
 import main.model.vo.MainPost;
-import main.model.vo.Product;
+import main.model.vo.Product1;
 
 /**
  * Servlet implementation class MainTop8Servlet
@@ -37,18 +37,25 @@ public class MainTop8Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Product> list= new MainPostService().selectTop8();
+		ArrayList<Product1> list= new MainPostService().selectTop8();
 		
-		System.out.println("메인 포스트 리턴리스트 : " + list);
+		System.out.println("selecttop8 servlet : " + list);
 		
 		JSONObject sendJson = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
 		
-		for(Product m : list) {
+		for(Product1 m : list) {
 			JSONObject job = new JSONObject();
 			
 			job.put("img", URLEncoder.encode(m.getImg(),"UTF-8"));
-			job.put("name", URLEncoder.encode(m.getProductName(),"UTF-8"));
+			job.put("productName", URLEncoder.encode(m.getProductName(),"UTF-8"));
+			job.put("brand", URLEncoder.encode(m.getBrand(),"UTF-8"));
+			job.put("price",m.getProductPrice());
+			job.put("discountRate",m.getDiscountRate());
+			job.put("viewCount", m.getViewCount());
+			
+			
+			
 			
 			jsonArr.add(job);
 		}

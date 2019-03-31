@@ -78,12 +78,7 @@ public class ProductService {
 		return list;
 	}
 
-	public ArrayList<ProductFull> searchSelectList(String sName, int currentPage, int limit) {
-		Connection conn = getConnection();
-		ArrayList<ProductFull> list = pdao.searchSelectList(conn,sName,currentPage,limit);
-		close(conn);
-		return list;
-	}
+	
 
 	
 
