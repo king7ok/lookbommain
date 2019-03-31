@@ -15,11 +15,19 @@
 </head>
 <script src="/lb/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-
-	$(".close").click(function(){
-		var max = document.getElementById(".searchmax");
-		max.style.display = none;
+	$(document).ready(function() {
+		
 	});
+	window.onload = function() {
+		
+	}
+	$(".close").click(function(){
+		console.log('close');
+		var max = document.getElementById("searchmax");
+		console.log('max', max, max.style)
+		max.style.display = 'none';
+	});
+	
       
       $(function (){
          /* $.ajax({
@@ -73,7 +81,7 @@
        function show(){
          var max = document.getElementById("searchmax");
          max.style.display = "inline-block";
-         $.ajax({
+         /* $.ajax({
             url:"/lb/srank",
             type:"post",
             dataType:"json",
@@ -84,15 +92,15 @@
                var json = JSON.parse(jsonStr);
                
                var value="";
-               for(var i =0; i < 10;i++){
-                  console.log(json.list[i].title);
+               for(var i =0; i < json.list.length;i++){
+                  //console.log(json.list[i].title);
                   value += "<tr><td>&nbsp;"+ (i+1) + "&nbsp;위. &nbsp;" +  decodeURIComponent(json.list[i].title).replace(/\+/gi, " ")+ "</td></tr><tr><td></td></tr>";
                        
                }//for ins
                $(".srank").html($(".srank").html()+value);
                
             }
-         });
+         }); */
       };
       /* window.onload = function() {
          document.getElementById('close').onclick = function() { 
@@ -127,6 +135,7 @@
       }); 
       function close(){
          var max = document.getElementById("searchmax");
+         console.log('close', max, max.style)
          max.style.display = "none";
       };
 </script>
@@ -505,7 +514,7 @@
    </table>
    </div>
    
-   <div class="close">x</div>
+   <div class="close" onclick="close()">x</div>
 </div>
 <!-- 검색창  -->
 </div>

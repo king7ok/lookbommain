@@ -82,15 +82,16 @@ public class MainPostDao {
 
 
 
-	public ArrayList<Product1> selectTop8(Connection conn) {
+	public ArrayList<Product1> selectTop8(Connection conn,String gender) {
 		ArrayList<Product1> list = new ArrayList<Product1>();
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rset = null;
-		String query = "select * from product  join product_detail using(product_no) where rownum <=8 order by total_sales_rate desc";
+		System.out.println("dao gender : " + gender);
+		String query = "select * from product  join product_detail using(product_no) where rownum <=8 and sex = ? order by total_sales_rate desc";
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(query);
-	     
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1,gender);
+			rset = stmt.executeQuery();
 			while(rset.next()) {
 				
 				Product1 p = new Product1();

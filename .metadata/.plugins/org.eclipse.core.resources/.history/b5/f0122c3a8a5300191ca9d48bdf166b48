@@ -1,0 +1,447 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@page import="user.model.vo.LookBomUser" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/lb/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+/* 	function manList(){
+		&.ajax({
+			url:"/lb/mptop8?gender=M",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var jsonStr = JSON.stringify(data);
+				var json = JSON.parse(jsonStr);
+			}
+		});	
+	}; */
+	$(function(){
+		$.ajax({
+	
+		url: "/lb/mpvsel",
+		type: "post",
+		dataType: "json",
+		success: function(data){
+			
+			
+			var jsonStr = JSON.stringify(data);
+			var json = JSON.parse(jsonStr);
+			
+		    var values3 ="<li class='nav-dots'>"; 
+		    var values2 = "";
+			var values = "";
+			var i =0;
+			for(i;i < json.list.length ;i++){
+				if(i==0){
+					values = "<input type='radio' name='radio-btn' id='img-" + (i+1) +"' checked/>"
+						+ "<li class = 'slide-container'>" 
+						+ "<div class='slide'>"
+						+ "<a href ='#'><img name ='img-" + (i+1) +"' src='/lb/file/Mpost/"+ json.list[i].img + "' ></a>"
+						+ "</div>"
+						+ "<div class='nav'>"; 
+				}else {
+					values = "<input type='radio' name='radio-btn' id='img-" + (i+1) +"'>"
+					+ "<li class = 'slide-container'>" 
+					+ "<div class='slide'>"
+					+ "<a href ='#'><img name ='img-" + (i+1) +"' src='/lb/file/Mpost/"+ json.list[i].img + "' ></a>"
+					+ "</div>"
+					+ "<div class='nav'>"; 
+				}
+				if( i == 0){
+					values+=
+					"<label for='img-" + json.list.length + "' class='prev'>&#x2039;</label>"
+					+"<label for='img-2' class='next'>&#x203a;</label>"
+					+"</div></li>";
+				}else if(i == (json.list.length - 1)){
+					values+="<label for='img-"+i+"' class='prev'>&#x2039;</label>"
+					+"<label for='img-1' class='next'>&#x203a;</label>"
+					+"</div></li>";
+				}else{
+					values+="<label for='img-"+i+"' class='prev'>&#x2039;</label>"
+					+"<label for='img-"+(i+2)+"' class='next'>&#x203a;</label>"
+					+"</div></li>";
+				}
+				values2 +=values;
+				values3 +=  "<label for='img-"+ (i+1)  +"' class='nav-dot' id='img-dot-"+(i+1)+"' />" ;
+		/* 	console.log(values2);
+			console.log(values3);
+			console.log(json.length); */
+			
+						
+			}//for in 
+			$(".slides").html($(".slides").html() + values2  +values3 +"</li>" );
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("error : " + jqXHR + ", " + 
+					textStatus + ", " + errorThrown);
+		}
+		
+	});
+	});
+	function menList(el) {
+		console.log('el', $(el).val())
+	}
+	$(function(){
+		 $.ajax({
+			 url: "/lb/mptop8",
+				type: "GET",
+				dataType: "json",
+				success: function(data){
+					
+					console.log(data);
+					var jsonStr = JSON.stringify(data);
+					var json = JSON.parse(jsonStr);
+					var value1 = "";
+					var value2 = "";
+					var value3 = "";
+					var value4 = "";
+			
+					for(var i = 0; i <json.list.length; i++){
+						 
+							value1+="<td id='imgdiv'><img src='/lb/file/Mpost/"+json.list[i].img+"'></td>";
+							value2+="<td id='textdiv'>"+decodeURIComponent(json.list[i].brand) + "<br>"+decodeURIComponent(json.list[i].productName)+"<br>"+json.list[i].price+"<br>"+json.list[i].discountRate+"&nbsp;&nbsp;"+(json.list[1].price-(json.list[i].price*json.list[i].discountRate))+"<br>"+json.list[i].viewCount+ "</td>";
+						
+					if(i >3){
+						value3+="<td id='imgdiv'><img src='/lb/file/Mpost/"+json.list[i].img+"'></td>";
+						value4+="<td id='textdiv'>"+decodeURIComponent(json.list[i].brand) + "<br>"+decodeURIComponent(json.list[i].productName)+"<br>"+json.list[i].price+"<br>"+json.list[i].discountRate+"&nbsp;&nbsp;"+(json.list[1].price-(json.list[i].price*json.list[i].discountRate))+"<br>"+json.list[i].viewCount+ "</td>";
+					} 
+					}
+					$(".top8").html($(".top8").html()+"<tr>"+value1+ "<tr></tr>"+ value2+ "<tr></tr>"+value3+ "<tr></tr>"+value4+  "<tr>");
+					}
+
+			}); 
+	});
+</script>
+
+<style type="text/css">
+/* HTML  CSS  JS Result
+EDIT ON
+ @import url(https://fonts.googleapis.com/css?family=Varela+Round); */
+@media all and(max-width:670px){
+	.slides {position:relative;}
+}
+
+ body {
+ padding:0px;
+ margin:0px; /* background: #333 url("https://codepen.io/images/classy_fabric.png");  */
+ 
+ 
+
+ }
+
+.slides {
+   z-index:2;
+    width: 1000px;
+    height: 600px;
+    display: block;
+    margin: 0 auto;
+     padding: 0;
+    position: relative;
+   
+}
+
+.slides * {
+	z-index:0;
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.slides input { display: none; }
+
+.slide-container { display: block; }
+
+.slide {
+    top: 0;
+    opacity: 0;
+     width: 1000px;
+    height: 600px;
+    display: block;
+    position: absolute;
+	
+    transform: scale(0);
+
+    transition: all .7s ease-in-out;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+}
+
+.nav label {
+    width: 200px;
+    height: 600px;
+    display: none;
+    position: absolute;
+
+      opacity: 0;
+    z-index: 9;
+    cursor: pointer;
+
+    transition: opacity .2s;
+
+    color: #FFF;
+    font-size: 156pt;
+    text-align: center;
+    line-height: 380px;
+    font-family: "Varela Round", sans-serif;
+    background-color: rgba(255, 255, 255, .3);
+    text-shadow: 0px 0px 15px rgb(119, 119, 119);
+}
+
+.slide:hover + .nav label { opacity: 0.5; }
+
+.nav label:hover { opacity: 1; }
+
+.nav .next { right: 0; }
+
+input:checked + .slide-container  .slide {
+    opacity: 1;
+
+    transform: scale(1);
+
+    transition: opacity 1s ease-in-out;
+}
+
+input:checked + .slide-container .nav label { display: block; }
+
+.nav-dots {
+    width: 1000px;
+    bottom: 9px;
+    height: 11px;
+    display: block;
+    position: absolute;
+    text-align: center;
+}
+
+.nav-dots .nav-dot {
+    /* top: px; */
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    position: relative;
+    
+    border-radius: 100%;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.nav-dots .nav-dot:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+input#img-1:checked ~ .nav-dots label#img-dot-1,
+input#img-2:checked ~ .nav-dots label#img-dot-2,
+input#img-3:checked ~ .nav-dots label#img-dot-3,
+input#img-4:checked ~ .nav-dots label#img-dot-4,
+input#img-5:checked ~ .nav-dots label#img-dot-5,
+input#img-6:checked ~ .nav-dots label#img-dot-6 {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Resources 1×0.5×0.25× Rerun */
+	#imgdiv{
+	width:22vw;
+	height:35vh;
+    margin-bottom:0px;
+    margin-left:35px; 
+	margin-right:35px;
+	margin-top:35px; 
+	border:1px solid black;
+	/* position:static; */
+	
+	}
+	#textdiv{
+	width:22vw;
+	height:10vh;
+	pading:35px;
+	margin-top:0px;
+	margin-bottom:50px;
+	margin-left:35px;
+	margin-right:35px;
+	border:1px solid black;
+	position:relative;
+	}
+	
+	/* best아템이미지 사이즈 */
+	body table tr td div img{
+	
+	height:300px;
+	width:300px;
+	}
+	/* man women 버튼css*/
+/* 	#men, */
+	#womeon,
+	#men {
+	background-color: white; /* Green */
+ 	border: none;
+	padding:0px;
+	margin:0;
+	display: inline-block;
+	color:rgba(255,255,255,0.5);
+	}
+	#men:checked,
+	#women:checked {
+	height:1vh;
+	width:3vw;
+	}
+</style>
+</head>
+<body>
+<%@ include file="views/common/header.jsp" %>
+ 
+
+
+ 
+<ul class="slides">
+  <!--   <input type="radio" name="radio-btn" id="img-1" checked />
+    <li class="slide-container">
+        <div class="slide">
+            <a href="#"><img name="img1" src="http://farm9.staticflickr.com/8072/8346734966_f9cd7d0941_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-6" class="prev">&#x2039;</label>
+            <label for="img-2" class="next">&#x203a;</label>
+        </div>
+    </li>
+
+    <input type="radio" name="radio-btn" id="img-2" />
+    <li class="slide-container">
+        <div class="slide">
+          <a href="#"><img name="img2" src="http://farm9.staticflickr.com/8504/8365873811_d32571df3d_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-1" class="prev">&#x2039;</label>
+            <label for="img-3" class="next">&#x203a;</label>
+        </div>
+    </li>
+
+    <input type="radio" name="radio-btn" id="img-3" />
+    <li class="slide-container">
+        <div class="slide">
+          <a href="#"><img name= "img3"src="http://farm9.staticflickr.com/8068/8250438572_d1a5917072_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-2" class="prev">&#x2039;</label>
+            <label for="img-4" class="next">&#x203a;</label>
+        </div>
+    </li>
+
+    <input type="radio" name="radio-btn" id="img-4" />
+    <li class="slide-container">
+        <div class="slide">
+         <a href="#"><img src="http://farm9.staticflickr.com/8061/8237246833_54d8fa37f0_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-3" class="prev">&#x2039;</label>
+            <label for="img-5" class="next">&#x203a;</label>
+        </div>
+    </li>
+
+    <input type="radio" name="radio-btn" id="img-5" />
+    <li class="slide-container">
+        <div class="slide">
+          <a href="#"><img src="http://farm9.staticflickr.com/8055/8098750623_66292a35c0_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-4" class="prev">&#x2039;</label>
+            <label for="img-6" class="next">&#x203a;</label>
+        </div>
+    </li>
+
+    <input type="radio" name="radio-btn" id="img-6" />
+    <li class="slide-container">
+        <div class="slide">
+         <a href="#"> <img src="http://farm9.staticflickr.com/8195/8098750703_797e102da2_z.jpg" /></a>
+        </div>
+        <div class="nav">
+            <label for="img-5" class="prev">&#x2039;</label>
+            <label for="img-1" class="next">&#x203a;</label>
+        </div>
+    </li>
+-->
+<!--     <li class="nav-dots">
+      <label for="img-1" class="nav-dot" id="img-dot-1"></label>
+      <label for="img-2" class="nav-dot" id="img-dot-2"></label>
+      <label for="img-3" class="nav-dot" id="img-dot-3"></label>
+      <label for="img-4" class="nav-dot" id="img-dot-4"></label>
+      <label for="img-5" class="nav-dot" id="img-dot-5"></label>
+      <label for="img-6" class="nav-dot" id="img-dot-6"></label>
+    </li>  -->
+</ul>
+<!-- 메인 포스트 수정버튼 관리자일때만 -->
+<%-- <%if(loginUser != null && loginUser.getUserId().equals("admin")){ %>
+<button value="수정하기"><a href="#"></a></button>
+<%} %> --%>
+<!-- <button value="pupBtn" onclick="mpselect()">수정하기</button> -->
+<a href="/lb/mpselect"> 수정하기</a>
+<a href="views/common/header.jsp">헤더</a>
+<a href="views/common/adminHeader.jsp">관리자헤더</a>
+<a href="views/side/side1.jsp">사이드1</a>
+<a href="views/side/side2.jsp">사이드2</a>
+<a href="views/side/side3.jsp">사이드3</a>
+<a href="views/side/side4.jsp">사이드4</a>
+<a href="views/side/side5.jsp">사이드5</a>
+<a href="views/side/adminSide.jsp">어드민사이드</a>
+<br>
+<br>
+
+
+<!-- Best 남/여 구분버튼 -->
+
+<table>
+<tr>
+	<td style="width:5vw;"></td>
+	<td style="width:3vw;"><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEST</h1></td>
+	<td style="width:1vw;"></td>
+	<td style="width:3vw;"><input type="button" id="man" value="man" onclick="menList(this);" checked/></td>
+	<td style="width:3vw;"><input type="button"  id="women" value="women"  onclick="womenList();"></td>
+	<td></td>
+</tr>
+</table>
+
+
+<table class="top8" align = "center" >
+<!-- <tr>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+</tr>
+<tr>
+	<td id="textdiv">brand<br>상품명<br>가격<br>할인율/최종가격<br>조회수	<br></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+</tr>
+<tr>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+	<td id="imgdiv"></td>
+</tr>
+<tr>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+	<td id="textdiv"></td>
+</tr> -->
+</table>
+<table>
+
+</table>
+
+ <%@ include file= "views/common/footer.jsp" %>
+</body>
+</html>

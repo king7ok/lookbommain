@@ -37,7 +37,11 @@ public class MainTop8Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Product1> list= new MainPostService().selectTop8();
+		request.setCharacterEncoding("utf-8");
+		String gender = request.getParameter("type");
+		
+		System.out.println(gender);
+		ArrayList<Product1> list= new MainPostService().selectTop8(gender);
 		
 		System.out.println("selecttop8 servlet : " + list);
 		

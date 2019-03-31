@@ -37,9 +37,9 @@ public class MainPostService {
 		return result;
 	}
 
-	public ArrayList<Product1> selectTop8() {
+	public ArrayList<Product1> selectTop8(String gender) {
 		Connection conn = getConnection();
-		ArrayList<Product1>  list = mdao.selectTop8(conn);
+		ArrayList<Product1>  list = mdao.selectTop8(conn,gender);
 		close(conn);
 		return list;
 	}
